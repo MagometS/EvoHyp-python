@@ -3,3 +3,5 @@
 .DS_STORE
 
 __pycache__
+.idea/misc.xml
+.idea/python.iml
