@@ -9,14 +9,6 @@ class DEEP:
     def __init__(self, filename):
         DEEP.filename = filename
 
-    def get_solution(self):
-        return [5.0, 10.0, 16.0]
-
-    def parsed_answer(log_file, task_size):
-        DEEP.x[0] = 5.0
-        DEEP.x[1] = 10.0
-        DEEP.x[2] = 16.0
-
     def create_solution(self, heuristics):
         sections = [f"default_settings{i}" for i in range(15)]  # Creating section names
         fit = " "  # Initializing fit
@@ -45,7 +37,7 @@ class DEEP:
 
         return fit
 
-    def parse_fitness(log_file):
+    def parse_fitness(self, log_file):
         fit = 0.0
         try:
             with open(log_file, 'r') as file:
@@ -57,4 +49,3 @@ class DEEP:
         except Exception as e:
             print(e)
         return fit
-

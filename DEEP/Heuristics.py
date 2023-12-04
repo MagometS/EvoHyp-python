@@ -1,13 +1,23 @@
 import os
 import subprocess
+import configparser
+
 
 class Heuristics:
     def make_heuristic(self, recombination_gamma, recombination_strategy, gamma_init, ini_file, section):
         try:
-            with open(ini_file, 'r') as file:
-                # Logic to update the INI file
-                # Not shown for brevity
-                pass
+            # Создание объекта конфигурации
+            config = configparser.ConfigParser()
+            config.read('path_to_ini_file.ini')
+
+            # Запись значений в секции
+            config.set(section, "recombination_gamma", recombination_gamma)
+            config.set(section, "recombination_strategy", recombination_strategy)
+            config.set(section, "gamma_init", gamma_init)
+
+            # Сохранение изменений в файл
+            with open(ini_file, 'w') as configfile:
+                config.write(configfile)
         except IOError as e:
             print(e)
 
@@ -17,7 +27,8 @@ class Heuristics:
 
         try:
             file_name = os.path.basename(ini_file)
-            command = "/home/maria_lyzhina/bin/deepmethod --default-name=/home/maria_lyzhina/hd/{} --settings-group={} --settings-file=/home/maria_lyzhina/hd/{}".format(file_name, section, file_name)
+            command = "/home/maria_lyzhina/bin/deepmethod --default-name=/home/maria_lyzhina/hd/{} --settings-group={} --settings-file=/home/maria_lyzhina/hd/{}".format(
+                file_name, section, file_name)
             p = subprocess.Popen(command, shell=True, stdout=subprocess.PIPE, stderr=subprocess.STDOUT)
             log_line = "wtime:-3.313857e+01 tau:14 freeze:0 score:100.000000000000"
             log_line1 = "wtime:-3.313857e+01 tau:14 freeze:0 score:100.000000000000"
