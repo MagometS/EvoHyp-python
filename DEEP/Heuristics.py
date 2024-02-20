@@ -1,6 +1,7 @@
 import os
 import subprocess
 import configparser
+import io
 
 
 class Heuristics:
@@ -37,8 +38,12 @@ class Heuristics:
             log_line = "wtime:-3.313857e+01 tau:14 freeze:0 score:100.000000000000"
             log_line1 = "wtime:-3.313857e+01 tau:14 freeze:0 score:100.000000000000"
 
+            #stdout_text = p.stdout.decode('utf-8')
+            stdout_text = io.TextIOWrapper(io.BytesIO(p.stdout), encoding='utf-8')
+
             while True:
-                line = p.stdout.readline().decode('utf-8').strip()
+                #line = p.stdout.decode('utf-8').readline().strip()
+                line = stdout_text.readline().strip()
                 if line == '':
                     break
                 log_line = line
@@ -74,9 +79,11 @@ class Heuristics:
 
             log_line = "wtime:-3.313857e+01 tau:14 freeze:0 score:100.000000000000"
             log_line1 = "wtime:-3.313857e+01 tau:14 freeze:0 score:100.000000000000"
+            
+            stdout_text = io.TextIOWrapper(io.BytesIO(p.stdout), encoding='utf-8') #оборачиваем p.stdout чтобы работал readline()
 
             while True:
-                line = p.stdout.readline().decode('utf-8').strip()
+                line = stdout_text.readline().strip()
                 if line == '':
                     break
                 log_line = line
