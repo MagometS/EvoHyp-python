@@ -8,7 +8,7 @@ class Heuristics:
         try:
             # Создание объекта конфигурации
             config = configparser.ConfigParser()
-            config.read('path_to_ini_file.ini')
+            config.read(ini_file)
 
             # Запись значений в секции
             config.set(section, "recombination_gamma", recombination_gamma)
@@ -27,9 +27,13 @@ class Heuristics:
 
         try:
             file_name = os.path.basename(ini_file)
-            command = "/home/maria_lyzhina/bin/deepmethod --default-name=/home/maria_lyzhina/hd/{} --settings-group={} --settings-file=/home/maria_lyzhina/hd/{}".format(
+            '''
+            command = "deepmethod --default-name=/home/maria_lyzhina/hd/{} --settings-group={} --settings-file=/home/maria_lyzhina/hd/{}".format(
                 file_name, section, file_name)
             p = subprocess.Popen(command, shell=True, stdout=subprocess.PIPE, stderr=subprocess.STDOUT)
+            '''
+            p = subprocess.run(['deepmethod', '--default-name=deep_rastr.ini'], stdout=subprocess.PIPE)
+
             log_line = "wtime:-3.313857e+01 tau:14 freeze:0 score:100.000000000000"
             log_line1 = "wtime:-3.313857e+01 tau:14 freeze:0 score:100.000000000000"
 

@@ -27,7 +27,24 @@ class DEEP:
             'K': "default_settings11",
             'L': "default_settings12",
             'M': "default_settings13",
-            'N': "default_settings14"
+            'N': "default_settings14",
+            'O': "default_settings15",
+            'P': "default_settings16",
+            'Q': "default_settings17",
+            'R': "default_settings18",
+            'S': "default_settings19",
+            'T': "default_settings20",
+            'U': "default_settings21",
+            'V': "default_settings22",
+            'W': "default_settings23",
+            'X': "default_settings24",
+            'Y': "default_settings25",
+            'Z': "default_settings26",
+            'a': "default_settings27",
+            'c': "default_settings29",
+            'd': "default_settings30",
+            'e': "default_settings31",
+            'f': "default_settings32",
         }
 
         for c in heuristics:
