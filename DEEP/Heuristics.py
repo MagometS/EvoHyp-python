@@ -64,11 +64,7 @@ class Heuristics:
 
         try:
             file_name = os.path.basename(ini_file)
-            '''
-            command = "deepmethod --default-name=/home/maria_lyzhina/hd/{} --settings-group={} --settings-file=/home/maria_lyzhina/hd/{}".format(
-                file_name, section, file_name)
-            p = subprocess.Popen(command, shell=True, stdout=subprocess.PIPE, stderr=subprocess.STDOUT)
-            '''
+            
             command = 'deepmethod'                      #формируем команду для subprocess
             arg1 = '--default-name={}'.format(file_name)
             arg2 = '--settings-group={}'.format(section)

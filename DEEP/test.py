@@ -1,5 +1,12 @@
+import sys
+
+sys.path.append('/home/magomet/EvoHyp-python/GeneticAlgorithm')
+
 from DeepSolution import DeepSolution
 from Heuristics import Heuristics
+
+
+
 '''
 ds = DeepSolution()
 ds.set_heuristic_combination("ABCD")

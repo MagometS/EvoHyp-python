@@ -5,8 +5,8 @@ from GeneticProgram import GeneticProgram
 
 class DeepExample:
     @classmethod
-    def solve(cls):
-        problem = DeepProblem()
+    def solve(cls, filename):
+        problem = DeepProblem(filename)
         seed = round(time.time() * 1000)
         heuristic_combination = str("ABCDEFGHIJKLMNOPQRSTUVWXYZabcdef")
         problem.set_heuristic_combination(heuristic_combination)
@@ -32,7 +32,8 @@ class DeepExample:
     
     @classmethod
     def main(cls):
-        cls.solve()
+        filename = "deep_rastr.ini" # .ini file for deepmethod
+        cls.solve(filename)
 
 if __name__ == "__main__":
 
