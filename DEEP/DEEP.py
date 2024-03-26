@@ -41,6 +41,7 @@ class DEEP:
             'Y': "default_settings25",
             'Z': "default_settings26",
             'a': "default_settings27",
+            'b': "default_settings28",
             'c': "default_settings29",
             'd': "default_settings30",
             'e': "default_settings31",
