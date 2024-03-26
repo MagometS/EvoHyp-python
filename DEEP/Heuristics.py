@@ -22,41 +22,41 @@ class Heuristics:
         except IOError as e:
             print(e)
 
-    def run_heuristic_test(self):
-        fit = 100.0
-        part = "100.000000000000"
+    # def run_heuristic_test(self):
+    #     fit = 100.0
+    #     part = "100.000000000000"
 
-        try:
-            #sfile_name = os.path.basename(ini_file)
-            '''
-            command = "deepmethod --default-name=/home/maria_lyzhina/hd/{} --settings-group={} --settings-file=/home/maria_lyzhina/hd/{}".format(
-                file_name, section, file_name)
-            p = subprocess.Popen(command, shell=True, stdout=subprocess.PIPE, stderr=subprocess.STDOUT)
-            '''
-            p = subprocess.run(['deepmethod', '--default-name=deep_rastr.ini'], stdout=subprocess.PIPE)
+    #     try:
+    #         #sfile_name = os.path.basename(ini_file)
+    #         '''
+    #         command = "deepmethod --default-name=/home/maria_lyzhina/hd/{} --settings-group={} --settings-file=/home/maria_lyzhina/hd/{}".format(
+    #             file_name, section, file_name)
+    #         p = subprocess.Popen(command, shell=True, stdout=subprocess.PIPE, stderr=subprocess.STDOUT)
+    #         '''
+    #         p = subprocess.run(['deepmethod', '--default-name=deep_rastr.ini'], stdout=subprocess.PIPE)
 
-            log_line = "wtime:-3.313857e+01 tau:14 freeze:0 score:100.000000000000"
-            log_line1 = "wtime:-3.313857e+01 tau:14 freeze:0 score:100.000000000000"
+    #         log_line = "wtime:-3.313857e+01 tau:14 freeze:0 score:100.000000000000"
+    #         log_line1 = "wtime:-3.313857e+01 tau:14 freeze:0 score:100.000000000000"
 
-            #stdout_text = p.stdout.decode('utf-8')
-            stdout_text = io.TextIOWrapper(io.BytesIO(p.stdout), encoding='utf-8')
+    #         #stdout_text = p.stdout.decode('utf-8')
+    #         stdout_text = io.TextIOWrapper(io.BytesIO(p.stdout), encoding='utf-8')
 
-            while True:
-                #line = p.stdout.decode('utf-8').readline().strip()
-                line = stdout_text.readline().strip()
-                if line == '':
-                    break
-                log_line = line
+    #         while True:
+    #             #line = p.stdout.decode('utf-8').readline().strip()
+    #             line = stdout_text.readline().strip()
+    #             if line == '':
+    #                 break
+    #             log_line = line
 
-            part1 = log_line.split("cost:")
-            print(part1[1])
-            p.communicate()
-            part = part1[1]
+    #         part1 = log_line.split("cost:")
+    #         print(part1[1])
+    #         p.communicate()
+    #         part = part1[1]
 
-        except Exception as e:
-            print(e)
+    #     except Exception as e:
+    #         print(e)
 
-        return part
+    #     return part
 
     def run_heuristic(self, ini_file, section):
         fit = 100.0
@@ -85,8 +85,8 @@ class Heuristics:
                 log_line = line
 
             part1 = log_line.split("cost:")
-            print(part1[1])
-            p.communicate()
+            # print(part1[1])
+            # p.communicate()
             part = part1[1]
 
         except Exception as e:
