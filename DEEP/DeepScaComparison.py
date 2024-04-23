@@ -1,13 +1,16 @@
 from DeepProblem import DeepProblem
 from ScaProblem import ScaProblem
 from Heuristics import Heuristics
+from SCA import SCA
 
 class DeepScaComparison:
     heuristics = None
+    obj_function = None 
 
-    def __init__(self, filename_deep, filename_sca) :
-        DeepScaComparison.filename_deep = filename_deep
-        DeepScaComparison.filename_sca = filename_sca
+    def __init__(self, filename_deep, filename_sca, obj_function) :
+        self.filename_deep = filename_deep
+        self.filename_sca = filename_sca
+        self.obj_function = obj_function
     
 
     def create_solution(self, heuristics):
@@ -55,14 +58,14 @@ class DeepScaComparison:
             if heuristic_key in heuristics_map_deep.keys():
                 heuristics_obj = Heuristics()  # creating Heuristics object
                 section_name = heuristics_map_deep[heuristic_key]  # getting section name from map
-                fit = heuristics_obj.run_heuristic(self.filename, section_name)  # calling run_heuristic
+                fit = heuristics_obj.run_heuristic(self.filename_deep, section_name)  # calling run_heuristic
             
             if heuristic_key in heuristics_map_sca.keys():
-                
+                sca = SCA(self.filename_sca, self.obj_function)
+                section_name = heuristics_map_sca[heuristic_key]
+                fit = sca.run_heuristic(section_name)
 
 
-
-            
         return fit
 
 

@@ -1,20 +1,40 @@
 import numpy as np
+import configparser
 
 class SCA:
 
-    def create_solution(obj_func, dim, max_iter, lb, ub):
-        population_size = 10
-        a = 2  # Constant in SCA formula
+    obj_function = None
+    file_name = None
+    
 
-        # Initialize the population within the bounds [lb, ub]
-        population = np.random.uniform(lb, ub, (population_size, dim))
+    def __init__(self, file_name, obj_function):
+        self.file_name = file_name
+        self.obj_function = obj_function
+        
+
+    def run_heuristic(self, section_name):
+
+        config = configparser.ConfigParser()
+        config.read(self.file_name)
+
+        heuristic_params = config[section_name]
+
+        lower_bound = float(heuristic_params['lower_bound'])
+        upper_bound = float(heuristic_params['upper_bound'])
+        population_size = int(heuristic_params['population_size'])
+        dim = int(heuristic_params['dim'])
+        max_iterations = int(heuristic_params['max_iterations'])
+
+        
+        a = 2  # Constant in SCA formula
+        population = np.random.uniform(lower_bound, upper_bound, (population_size, dim))
 
         best_solution = None
         best_fitness = float('inf')
 
-        for _ in range(max_iter):
+        for _ in range(max_iterations):
             for agent in population:
-                fitness = obj_func(agent)
+                fitness = self.obj_function(agent)
                 if fitness < best_fitness:
                     best_fitness = fitness
                     best_solution = agent
@@ -24,7 +44,6 @@ class SCA:
 
                 agent = agent + r1 * np.sin(r2) * (best_solution - agent) + a * (2 * r1 - 1)  # Update step
 
-            # Boundary check
-                agent = np.minimum(np.maximum(agent, lb), ub)
+                agent = np.minimum(np.maximum(agent, lower_bound), upper_bound)
 
-        return best_solution, best_fitness
+        return best_fitness
