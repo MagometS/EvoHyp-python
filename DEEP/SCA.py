@@ -3,6 +3,7 @@ import configparser
 import subprocess
 import io
 
+
 class SCA:
 
     #obj_function = None
@@ -30,8 +31,10 @@ class SCA:
         a = 2  # Constant in SCA formula
         population = np.random.uniform(lower_bound, upper_bound, (population_size, dim))
 
-        best_solution = None
-        best_fitness = float('inf')
+        # best_solution = None # эти два параметра надо считыать из ini/chk и вписыать обратно
+        # best_fitness = float('inf')
+
+        best_solution, best_fitness = self.individ_load(self.file_name + '.chk')
 
         for _ in range(max_iterations):
             for agent in population:
@@ -78,6 +81,43 @@ class SCA:
             print(e)
 
         return part
+
+
+    def individ_load(self, filename):
+        with open(filename) as reader:
+            lines = reader.readlines()
+
+        solution_line = lines[-7] # в deepmethod это cтрока x
+        fitness_line = lines[-16] # в deepmethod это cost 
+
+        solution = solution_line.split()
+        fitness = float(fitness_line.strip())
+
+        return solution, fitness
+
+        # print(solution)
+        # print(fitness)
+
+    def individ_save(self, filename, solution, fitness):
+        with open(filename, "r") as reader:
+            lines = reader.readlines()
+
+        last_16_lines = lines[-16:]
+
+        last_16_lines[0] = str(fitness)
+        last_16_lines[9] = str(solution)
+
+        with open("filename.txt", "w") as writer:
+            writer.writelines(last_16_lines)
+
+
+
+            
+        
+
+
+
+        
 
     
         
