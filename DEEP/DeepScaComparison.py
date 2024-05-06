@@ -5,12 +5,9 @@ from SCA import SCA
 
 class DeepScaComparison:
     heuristics = None
-    obj_function = None 
 
-    def __init__(self, filename_deep, filename_sca, obj_function) :
-        self.filename_deep = filename_deep
-        self.filename_sca = filename_sca
-        self.obj_function = obj_function
+    def __init__(self, filename) :
+        self.filename = filename
     
 
     def create_solution(self, heuristics):
@@ -51,17 +48,17 @@ class DeepScaComparison:
             'f': "default_settings32",
         }
 
-        heuristics_map_sca = {'g': "default_settings1"}
+        heuristics_map_sca = {'g': "sca_default_settings1"}
 
         
         for heuristic_key in heuristics:
             if heuristic_key in heuristics_map_deep.keys():
                 heuristics_obj = Heuristics()  # creating Heuristics object
                 section_name = heuristics_map_deep[heuristic_key]  # getting section name from map
-                fit = heuristics_obj.run_heuristic(self.filename_deep, section_name)  # calling run_heuristic
+                fit = heuristics_obj.run_heuristic(self.filename, section_name)  # calling run_heuristic
             
             if heuristic_key in heuristics_map_sca.keys():
-                sca = SCA(self.filename_sca, self.obj_function)
+                sca = SCA(self.filename)
                 section_name = heuristics_map_sca[heuristic_key]
                 fit = sca.run_heuristic(section_name)
 

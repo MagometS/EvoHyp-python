@@ -9,9 +9,8 @@ class SCA:
     file_name = None
     
 
-    def __init__(self, file_name, obj_function):
+    def __init__(self, file_name):
         self.file_name = file_name
-        #self.obj_function = obj_function
         
 
     def run_heuristic(self, section_name):

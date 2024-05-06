@@ -4,18 +4,15 @@ from DeepScaSolution import DeepScaSolution
 
 
 class DeepScaProblem(Problem):
-    filename_deep = None
-    filename_sca = None
-    obj_function = None
+    filename = None
+   
 
-    def __init__(self, filename_deep, filename_sca, obj_function):
-        self.filename_deep = filename_deep
-        self.filename_sca = filename_sca
-        self.obj_function = obj_function
+    def __init__(self, filename):
+        self.filename = filename
 
 
     def evaluate(self, heuristic_combination):
-        solution = DeepScaSolution(self.obj_function)
+        solution = DeepScaSolution()
         solution.set_heuristic_combination(heuristic_combination)
-        solution.create_solution(self.filename_deep, self.filename_sca)
+        solution.create_solution(self.filename)
         return solution

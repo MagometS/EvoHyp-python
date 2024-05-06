@@ -11,12 +11,6 @@ class DeepScaSolution(Solution):
 
     initial_solution: List[str] = []
 
-    obj_function = None
-
-
-    def __init__(self, obj_function):
-        self.obj_function = obj_function
-
 
     def get_fitness(self) -> float:
         return self.fitness
@@ -38,8 +32,8 @@ class DeepScaSolution(Solution):
         else:
             return 0
 
-    def create_solution(self, filename_deep, filename_sca):
-        sol = DeepScaComparison(filename_deep, filename_sca, self.obj_function)
+    def create_solution(self, filename):
+        sol = DeepScaComparison(filename)
 
         try:
             fitline = sol.create_solution(self.heuristic_combination)
