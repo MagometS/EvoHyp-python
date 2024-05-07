@@ -50,6 +50,8 @@ class SCA:
 
                 agent = np.minimum(np.maximum(agent, lower_bound), upper_bound)
 
+        self.individ_save(self.file_name + '.chk', best_solution, best_fitness)
+
         return best_fitness
     
     def _obj_function(self, agent):
@@ -83,20 +85,23 @@ class SCA:
         return part
 
 
-    def individ_load(self, filename):
+    def individ_load(self, filename, population_size):
+
+        solution = []
+        fitness = []
         with open(filename) as reader:
             lines = reader.readlines()
+        
 
-        solution_line = lines[-7] # в deepmethod это cтрока x
-        fitness_line = lines[-16] # в deepmethod это cost 
-
-        solution = solution_line.split()
-        fitness = float(fitness_line.strip())
-
-        return solution, fitness
+        for i in range(population_size):
+            solution.append([float(num) for num in lines[i * 16 + 10].split()]) # в deepmethod это cтрока x
+            fitness.append(float(lines[i * 16 + 1])) # в deepmethod это cost 
 
         # print(solution)
         # print(fitness)
+        return solution, fitness
+
+       
 
     def individ_save(self, filename, solution, fitness):
         with open(filename, "r") as reader:
@@ -107,7 +112,7 @@ class SCA:
         last_16_lines[0] = str(fitness)
         last_16_lines[9] = str(solution)
 
-        with open("filename.txt", "w") as writer:
+        with open(filename, "w") as writer:
             writer.writelines(last_16_lines)
 
 
