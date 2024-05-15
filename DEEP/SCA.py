@@ -2,6 +2,9 @@ import numpy as np
 import configparser
 import subprocess
 import io
+import random
+import math
+
 
 
 class SCA:
@@ -29,30 +32,38 @@ class SCA:
 
         
         a = 2  # Constant in SCA formula
-        population = np.random.uniform(lower_bound, upper_bound, (population_size, dim))
+        
+        solution, fitness = self.individ_load(self.file_name + '.chk')
 
-        # best_solution = None # эти два параметра надо считыать из ini/chk и вписыать обратно
-        # best_fitness = float('inf')
+        iter_best = []
+        best_fitness = max(fitness)  # the score of the best-so-far candidate
+        best_solution = solution[fitness.index(best_fitness)].copy()  # the position of the best-so-far candidate
 
-        best_solution, best_fitness = self.individ_load(self.file_name + '.chk')
+        for t in range(max_iterations):
+            r1 = a - (t + 1) * a / max_iterations
 
-        for _ in range(max_iterations):
-            for agent in population:
-                fitness = self._obj_function(agent)
-                if fitness < best_fitness:
-                    best_fitness = fitness
-                    best_solution = agent
+            for i in range(population_size):
+                for j in range(dim):
+                    r2 = random.uniform(0, 2 * math.pi)
+                    r3 = random.uniform(0, 2)
+                    r4 = random.random()
+                    if r4 < 0.5:
+                        solution[i][j] += r1 * math.sin(r2) * abs(r3 * best_solution[j] - solution[i][j])
+                    else:
+                        solution[i][j] += r1 * math.cos(r2) * abs(r3 * best_solution[j] - solution[i][j])
+                solution[i] = self.boundary_check(solution[i], lower_bound, upper_bound)
+                fitness[i] = self._obj_function(solution[i])
 
-                r1 = np.random.random(dim)  # Random vector [0, 1]
-                r2 = np.random.random(dim)  # Random vector [0, 1]
+            for i in range(population_size):
+                if fitness[i] > best_fitness:
+                    best_fitness = fitness[i]
+                    best_solution = solution[i].copy()
+            iter_best.append(best_fitness)
 
-                agent = agent + r1 * np.sin(r2) * (best_solution - agent) + a * (2 * r1 - 1)  # Update step
-
-                agent = np.minimum(np.maximum(agent, lower_bound), upper_bound)
-
-        self.individ_save(self.file_name + '.chk', best_solution, best_fitness)
+        self.individ_save(self.file_name + '.chk', solution, fitness)
 
         return best_fitness
+    
     
     def _obj_function(self, agent):
         try:
@@ -83,10 +94,16 @@ class SCA:
             print(e)
 
         return part
+    
 
+    def boundary_check(value, lb, ub):
+        for i in range(len(value)):
+            value[i] = max(value[i], lb[i])
+            value[i] = min(value[i], ub[i])
+        return value
+    
 
     def individ_load(self, filename, population_size):
-
         solution = []
         fitness = []
         with open(filename) as reader:
@@ -97,33 +114,18 @@ class SCA:
             solution.append([float(num) for num in lines[i * 16 + 10].split()]) # в deepmethod это cтрока x
             fitness.append(float(lines[i * 16 + 1])) # в deepmethod это cost 
 
-        # print(solution)
-        # print(fitness)
+        print(solution)
+        print(fitness)
         return solution, fitness
 
        
-
     def individ_save(self, filename, solution, fitness):
         with open(filename, "r") as reader:
             lines = reader.readlines()
 
-        last_16_lines = lines[-16:]
-
-        last_16_lines[0] = str(fitness)
-        last_16_lines[9] = str(solution)
+        for i in range(len(fitness)):
+            lines[i* 16 + 1] = str(fitness[i])
+            lines[i* 16 + 10] = str(solution[i])
 
         with open(filename, "w") as writer:
-            writer.writelines(last_16_lines)
-
-
-
-            
-        
-
-
-
-        
-
-    
-        
-
+            writer.writelines(lines[:len(fitness) * 16])
