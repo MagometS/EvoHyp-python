@@ -6,10 +6,8 @@ import random
 import math
 
 
-
 class SCA:
 
-    #obj_function = None
     file_name = None
     
 
@@ -29,11 +27,10 @@ class SCA:
         population_size = int(heuristic_params['population_size'])
         dim = int(heuristic_params['dim'])
         max_iterations = int(heuristic_params['max_iterations'])
-
         
         a = 2  # Constant in SCA formula
         
-        solution, fitness = self.individ_load(self.file_name + '.chk')
+        solution, fitness = self.individ_load(self.file_name + '.chk', population_size)
 
         iter_best = []
         best_fitness = max(fitness)  # the score of the best-so-far candidate
@@ -68,7 +65,7 @@ class SCA:
     def _obj_function(self, agent):
         try:
     
-            command = './rastrign_func.py'                      #формируем команду для subprocess
+            command = './rastrign_func.py'    #формируем команду для subprocess
             arg1 = str(1.56)
             arg2 = str(2.67)
             arg3 = str(7.87)
@@ -88,7 +85,7 @@ class SCA:
             # # print(part1[1])
             # # p.communicate()
             # part = part1[1]
-            part = log_line
+            part = float(log_line)
 
         except Exception as e:
             print(e)
@@ -96,10 +93,10 @@ class SCA:
         return part
     
 
-    def boundary_check(value, lb, ub):
+    def boundary_check(self, value, lb, ub):
         for i in range(len(value)):
-            value[i] = max(value[i], lb[i])
-            value[i] = min(value[i], ub[i])
+            value[i] = max(value[i], lb)
+            value[i] = min(value[i], ub)
         return value
     
 
@@ -108,14 +105,13 @@ class SCA:
         fitness = []
         with open(filename) as reader:
             lines = reader.readlines()
-        
 
         for i in range(population_size):
             solution.append([float(num) for num in lines[i * 16 + 10].split()]) # в deepmethod это cтрока x
             fitness.append(float(lines[i * 16 + 1])) # в deepmethod это cost 
 
-        print(solution)
-        print(fitness)
+        # print(solution)
+        # print(fitness)
         return solution, fitness
 
        
