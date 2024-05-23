@@ -37,7 +37,7 @@ class DeepScaSolution(Solution):
 
         try:
             fitline = sol.create_solution(self.heuristic_combination)
-            print("fitline", fitline)
+            print(self.heuristic_combination, fitline)
             part2 = fitline.split(" ")
             self.fitness = float(part2[0])
             self.solution = fitline
