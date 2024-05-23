@@ -33,9 +33,11 @@ class SCA:
         solution, fitness = self.individ_load(self.file_name + '.chk', population_size)
 
         iter_best = []
-        best_fitness = max(fitness)  # the score of the best-so-far candidate
-        best_solution = solution[fitness.index(best_fitness)].copy()  # the position of the best-so-far candidate
+        best_fitness = min(fitness)
+        index_best_fitness = fitness.index(best_fitness)
+        best_solution = solution[index_best_fitness].copy()  # the position of the best-so-far candidate
 
+        
         for t in range(max_iterations):
             r1 = a - (t + 1) * a / max_iterations
 
@@ -50,26 +52,39 @@ class SCA:
                         solution[i][j] += r1 * math.cos(r2) * abs(r3 * best_solution[j] - solution[i][j])
                 solution[i] = self.boundary_check(solution[i], lower_bound, upper_bound)
                 fitness[i] = self._obj_function(solution[i])
+                # print("sca fitness ", fitness[i])
+                # print("sca solution ", solution[i])
 
             for i in range(population_size):
-                if fitness[i] > best_fitness:
+                if fitness[i] < best_fitness:
                     best_fitness = fitness[i]
                     best_solution = solution[i].copy()
             iter_best.append(best_fitness)
 
         self.individ_save(self.file_name + '.chk', solution, fitness)
 
-        return best_fitness
+        # print("index", index_best_fitness)
+        # print('sca best_solution:', best_solution)
+
+        # index_best_fitness = fitness.index(best_fitness)
+        # best_solution = solution[index_best_fitness].copy()
+
+        best_solution_str = [str(num) for num in best_solution]
+        
+        print("sca_fitline " + str(best_fitness) + " " + " ".join(best_solution_str))
+
+        #выводить в форме 26.000000000000 p[0]:-0.465405203240 p[1]:-2.002952118361 p[2]:-3.207954750384 p[3]:-0.885287699249 p[4]:-2.157680026563 p[5]:-1.658628386335 p[6]:-0.918774186489 p[7]:-1.393377595340 p[8]:-1.446648095796 p[9]:-1.257747608850
+
+        return str(best_fitness) + " " +  " ".join(best_solution_str)
     
     
     def _obj_function(self, agent):
         try:
     
             command = './rastrign_func.py'    #формируем команду для subprocess
-            arg1 = str(1.56)
-            arg2 = str(2.67)
-            arg3 = str(7.87)
-            arguments = [command, arg1, arg2, arg3]
+            arg = [str(num) for num in agent]
+            
+            arguments = [command, *arg]
 
             p = subprocess.run(arguments, stdout=subprocess.PIPE, stderr=subprocess.STDOUT)
   
@@ -109,6 +124,7 @@ class SCA:
         for i in range(population_size):
             solution.append([float(num) for num in lines[i * 16 + 10].split()]) # в deepmethod это cтрока x
             fitness.append(float(lines[i * 16 + 1])) # в deepmethod это cost 
+            # fitness.append([float(num) for num in lines[i * 16 + 1]])
 
         # print(solution)
         # print(fitness)
@@ -118,10 +134,16 @@ class SCA:
     def individ_save(self, filename, solution, fitness):
         with open(filename, "r") as reader:
             lines = reader.readlines()
+        
 
         for i in range(len(fitness)):
-            lines[i* 16 + 1] = str(fitness[i])
-            lines[i* 16 + 10] = str(solution[i])
+            solution_str = [str(num) for num in solution[i]]
+
+            lines[i* 16 + 1] = str(fitness[i]) + '\n'
+            str_x = " ".join(solution_str) + '\n'
+            lines[i* 16 + 10] = str_x
+            lines[i* 16 + 12] = str_x
+
 
         with open(filename, "w") as writer:
             writer.writelines(lines[:len(fitness) * 16])

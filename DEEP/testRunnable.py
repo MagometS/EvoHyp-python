@@ -2,14 +2,33 @@ import sys
 import time
 
 from DeepProblem import DeepProblem
+from DeepScaProblem import DeepScaProblem
 from GeneticAlgorithm.GeneticAlgorithm import GeneticAlgorithm
 
 class DeepExample(object):
     @classmethod
     def solve(cls, filename):
-        problem = DeepProblem(filename)
+        # problem = DeepProblem(filename)
+        # seed = round(time.time() * 1000)
+        # heuristic_combination = str("ABCDEFGHIJKLMNOPQRSTUVWXYZabcdef")
+        # # problem.set_heuristic_combination(heuristic_combination)
+        # genetic_algorithm = GeneticAlgorithm(seed, heuristic_combination)
+        # genetic_algorithm.set_parameters("Parameters.txt")
+        # genetic_algorithm.set_problem(problem)
+        # sol = genetic_algorithm.evolve()
+        # print("Best Solution")
+        # print("--------------")
+        # print("Fitness:", sol.get_fitness())
+        # print("Heuristic: ")
+        # print((sol.get_heuristic()).__str__())
+        # print("Solution: ")
+        # cls.display_solution(sol.get_solution())
+
+        problem = DeepScaProblem(filename)
         seed = round(time.time() * 1000)
-        heuristic_combination = str("ABCDEFGHIJKLMNOPQRSTUVWXYZabcdef")
+        # heuristic_combination = str("ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefg")
+        heuristic_combination = str("ABCg")
+
         # problem.set_heuristic_combination(heuristic_combination)
         genetic_algorithm = GeneticAlgorithm(seed, heuristic_combination)
         genetic_algorithm.set_parameters("Parameters.txt")
@@ -37,7 +56,10 @@ class DeepExample(object):
         cls.solve(filename)
 
 if __name__ == "__main__":
-    DeepExample.main(sys.argv[1])
+    DeepExample.main('deep_clust.ini')
+
+
+
 
 
 
