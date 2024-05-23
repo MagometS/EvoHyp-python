@@ -57,11 +57,3 @@ class DeepExample(object):
 
 if __name__ == "__main__":
     DeepExample.main('deep_clust.ini')
-
-
-
-
-
-
-
-

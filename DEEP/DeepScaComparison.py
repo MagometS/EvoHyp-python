@@ -60,7 +60,7 @@ class DeepScaComparison:
             if heuristic_key in heuristics_map_sca.keys():
                 sca = SCA(self.filename)
                 section_name = heuristics_map_sca[heuristic_key]
-                fit = str(sca.run_heuristic(section_name))
+                fit = sca.run_heuristic(section_name)
 
 
         return fit

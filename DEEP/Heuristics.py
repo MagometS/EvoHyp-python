@@ -69,7 +69,7 @@ class Heuristics:
             arg1 = '--default-name={}'.format(file_name)
             arg2 = '--settings-group={}'.format(section)
             arg3 = '--settings-file={}'.format(file_name)
-            arguments = [command, arg1, arg2, arg3]
+            arguments = [command, arg1, arg2, arg3, '-d']
 
             p = subprocess.run(arguments, stdout=subprocess.PIPE, stderr=subprocess.STDOUT)
 
