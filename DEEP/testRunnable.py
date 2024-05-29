@@ -26,8 +26,8 @@ class DeepExample(object):
 
         problem = DeepScaProblem(filename)
         seed = round(time.time() * 1000)
-        # heuristic_combination = str("ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefg")
-        heuristic_combination = str("ABCg")
+        heuristic_combination = str("ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefg")
+        # heuristic_combination = str("ABCg")
 
         # problem.set_heuristic_combination(heuristic_combination)
         genetic_algorithm = GeneticAlgorithm(seed, heuristic_combination)
@@ -37,8 +37,9 @@ class DeepExample(object):
         print("Best Solution")
         print("--------------")
         print("Fitness:", sol.get_fitness())
-        print("Heuristic: ")
-        print((sol.get_heuristic()).__str__())
+        # print("Heuristic: ")
+        # print((sol.get_heuristic()).__str__())
+        print("Heuristic combination: " + sol.get_heuristic_combination())
         print("Solution: ")
         cls.display_solution(sol.get_solution())
     
