@@ -31,8 +31,8 @@ class ScaSolution(Solution):
         else:
             return 0
 
-    def create_solution(self, filename, obj_function):
-        sol = SCA(filename, obj_function)
+    def create_solution(self, filename):
+        sol = SCA(filename)
 
         try:
             fitline = sol.create_solution(self.heuristic_combination)

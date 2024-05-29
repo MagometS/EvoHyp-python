@@ -74,8 +74,11 @@ class SCA:
         # print("sca_fitline " + str(best_fitness) + " " + " ".join(best_solution_str))
 
         #выводить в форме 26.000000000000 p[0]:-0.465405203240 p[1]:-2.002952118361 p[2]:-3.207954750384 p[3]:-0.885287699249 p[4]:-2.157680026563 p[5]:-1.658628386335 p[6]:-0.918774186489 p[7]:-1.393377595340 p[8]:-1.446648095796 p[9]:-1.257747608850
+        format_best_fitness = "{:.12f}".format(best_fitness)
+        
+        # return str(best_fitness) + " " +  " ".join(best_solution_str)
+        return format_best_fitness + " " +  " ".join(best_solution_str)
 
-        return str(best_fitness) + " " +  " ".join(best_solution_str)
     
     
     def _obj_function(self, agent):
