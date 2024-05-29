@@ -66,7 +66,7 @@ def draw(filename):
     cost = []
 
     for i in range(len(sol)):
-        cost.append(obj_function(sol[i]))
+        cost.append(obj_function(sol[i])) #Проверить, что fit это значение растригина с этими параметрами
 
     print(fit)
     print(cost)
