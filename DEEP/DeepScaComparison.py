@@ -50,17 +50,32 @@ class DeepScaComparison:
 
         heuristics_map_sca = {'g': "sca_default_settings1"}
 
-        
-        for heuristic_key in heuristics:
-            if heuristic_key in heuristics_map_deep.keys():
-                heuristics_obj = Heuristics()  # creating Heuristics object
-                section_name = heuristics_map_deep[heuristic_key]  # getting section name from map
-                fit = heuristics_obj.run_heuristic(self.filename, section_name)  # calling run_heuristic
+        with open('fit_log.txt', 'w') as file:
+            for heuristic_key in heuristics:
+                if heuristic_key in heuristics_map_deep.keys():
+                    heuristics_obj = Heuristics()  # creating Heuristics object
+                    section_name = heuristics_map_deep[heuristic_key]  # getting section name from map
+                    fit = heuristics_obj.run_heuristic(self.filename, section_name)  # calling run_heuristic
             
-            if heuristic_key in heuristics_map_sca.keys():
-                sca = SCA(self.filename)
-                section_name = heuristics_map_sca[heuristic_key]
-                fit = sca.run_heuristic(section_name)
+                if heuristic_key in heuristics_map_sca.keys():
+                    sca = SCA(self.filename)
+                    section_name = heuristics_map_sca[heuristic_key]
+                    fit = sca.run_heuristic(section_name)
+                
+                file.write(fit + '\n')
+            
+
+        # for heuristic_key in heuristics:
+        #     if heuristic_key in heuristics_map_deep.keys():
+        #         heuristics_obj = Heuristics()  # creating Heuristics object
+        #         section_name = heuristics_map_deep[heuristic_key]  # getting section name from map
+        #         fit = heuristics_obj.run_heuristic(self.filename, section_name)  # calling run_heuristic
+            
+        #     if heuristic_key in heuristics_map_sca.keys():
+        #         sca = SCA(self.filename)
+        #         section_name = heuristics_map_sca[heuristic_key]
+        #         fit = sca.run_heuristic(section_name)
+            
 
 
         return fit

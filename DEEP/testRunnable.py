@@ -26,7 +26,7 @@ class DeepExample(object):
 
         problem = DeepScaProblem(filename)
         seed = round(time.time() * 1000)
-        heuristic_combination = str("ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefg")
+        heuristic_combination = str("B")
         # heuristic_combination = str("ABCg")
 
         # problem.set_heuristic_combination(heuristic_combination)

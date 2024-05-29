@@ -40,6 +40,6 @@ class DeepScaSolution(Solution):
             print(self.heuristic_combination, fitline)
             part2 = fitline.split(" ")
             self.fitness = float(part2[0])
-            self.solution = fitline
+            self.initial_solution = fitline
         except OSError as e:
             print(e)
