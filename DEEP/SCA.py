@@ -4,6 +4,7 @@ import subprocess
 import io
 import random
 import math
+import os.path
 
 
 class SCA:
@@ -29,9 +30,20 @@ class SCA:
         max_iterations = int(heuristic_params['max_iterations'])
         
         a = 2  # Constant in SCA formula
-        
-        solution, fitness = self.individ_load(self.file_name + '.chk', population_size)
 
+        chkfile  = self.file_name + '.chk'
+
+        if os.path.exists(chkfile):
+            solution, fitness = self.individ_load(self.file_name + '.chk', population_size)
+        else:
+            solution = []
+            fitness = []
+            for i in range(population_size):
+                temp_pos = [random.uniform(lower_bound, upper_bound) for j in range(dim)]
+                solution.append(temp_pos)
+                fitness.append(self._obj_function(temp_pos))
+ 
+        
         iter_best = []
         best_fitness = min(fitness)
         index_best_fitness = fitness.index(best_fitness)
@@ -52,7 +64,6 @@ class SCA:
                         solution[i][j] += r1 * math.cos(r2) * abs(r3 * best_solution[j] - solution[i][j])
                 solution[i] = self.boundary_check(solution[i], lower_bound, upper_bound)
                 fitness[i] = self._obj_function(solution[i])
-                # print("sca fitness ", fitness[i])
                 # print("sca solution ", solution[i])
 
             for i in range(population_size):
@@ -135,6 +146,10 @@ class SCA:
 
        
     def individ_save(self, filename, solution, fitness):
+        if os.path.exists(filename) == False:
+            with open(filename, "w") as writer:
+                pass
+
         with open(filename, "r") as reader:
             lines = reader.readlines()
         
