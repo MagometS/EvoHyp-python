@@ -31,21 +31,25 @@ class SCA:
         
         a = 2  # Constant in SCA formula
 
-        chkfile  = self.file_name + '.chk'
 
-        if os.path.exists(chkfile):
-            solution, fitness = self.individ_load(self.file_name + '.chk', population_size)
-        else:
-            solution = []
-            fitness = []
-            for i in range(population_size):
-                temp_pos = [random.uniform(lower_bound, upper_bound) for j in range(dim)]
-                solution.append(temp_pos)
-                fitness.append(self._obj_function(temp_pos))
+        solution, fitness = self.individ_load(self.file_name + '.chk', population_size)
+
+        # chkfile  = self.file_name + '.chk'
+
+        # if os.path.exists(chkfile):
+        #     solution, fitness = self.individ_load(self.file_name + '.chk', population_size)
+        # else:
+        #     solution = []
+        #     fitness = []
+        #     for i in range(population_size):
+        #         temp_pos = [random.uniform(lower_bound, upper_bound) for j in range(dim)]
+        #         solution.append(temp_pos)
+        #         fitness.append(self._obj_function(temp_pos))
  
         
         iter_best = []
         best_fitness = min(fitness)
+        print(best_fitness)
         index_best_fitness = fitness.index(best_fitness)
         best_solution = solution[index_best_fitness].copy()  # the position of the best-so-far candidate
 

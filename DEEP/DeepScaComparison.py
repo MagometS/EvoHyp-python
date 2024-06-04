@@ -52,6 +52,7 @@ class DeepScaComparison:
 
         with open('fit_log.txt', 'w') as file:
             for heuristic_key in heuristics:
+        
                 if heuristic_key in heuristics_map_deep.keys():
                     heuristics_obj = Heuristics()  # creating Heuristics object
                     section_name = heuristics_map_deep[heuristic_key]  # getting section name from map
