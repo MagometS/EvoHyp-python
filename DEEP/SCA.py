@@ -27,31 +27,19 @@ class SCA:
         upper_bound = float(heuristic_params['upper_bound'])
         population_size = int(heuristic_params['population_size'])
         dim = int(heuristic_params['dim'])
-        max_iterations = int(heuristic_params['max_iterations'])
+        max_iterations = int(heuristic_params['absolute_iter'])
         
         a = 2  # Constant in SCA formula
 
 
         solution, fitness = self.individ_load(self.file_name + '.chk', population_size)
 
-        # chkfile  = self.file_name + '.chk'
-
-        # if os.path.exists(chkfile):
-        #     solution, fitness = self.individ_load(self.file_name + '.chk', population_size)
-        # else:
-        #     solution = []
-        #     fitness = []
-        #     for i in range(population_size):
-        #         temp_pos = [random.uniform(lower_bound, upper_bound) for j in range(dim)]
-        #         solution.append(temp_pos)
-        #         fitness.append(self._obj_function(temp_pos))
- 
-        
+       
         iter_best = []
         best_fitness = min(fitness)
         print(best_fitness)
         index_best_fitness = fitness.index(best_fitness)
-        best_solution = solution[index_best_fitness].copy()  # the position of the best-so-far candidate
+        best_solution = solution[index_best_fitness].copy()  
 
         
         for t in range(max_iterations):
@@ -68,31 +56,31 @@ class SCA:
                         solution[i][j] += r1 * math.cos(r2) * abs(r3 * best_solution[j] - solution[i][j])
                 solution[i] = self.boundary_check(solution[i], lower_bound, upper_bound)
                 fitness[i] = self._obj_function(solution[i])
-                # print("sca solution ", solution[i])
 
             for i in range(population_size):
                 if fitness[i] < best_fitness:
                     best_fitness = fitness[i]
                     best_solution = solution[i].copy()
             iter_best.append(best_fitness)
+            
+
+            best_solution_str = [str(num) for num in best_solution] # для записи в log
+            format_best_fitnessu_iter = "{:.12f}".format(best_fitness)
+
+            log_line = 'cost: ' + format_best_fitnessu_iter + " " + " ".join(["p[" + str(best_solution_str.index(sol)) + ']: ' + sol for sol in best_solution_str]) + '\n'
+
+            with open(self.file_name + '.log', 'a') as writer:
+                writer.writelines(log_line)
+
 
         self.individ_save(self.file_name + '.chk', solution, fitness)
-
-        # print("index", index_best_fitness)
-        # print('sca best_solution:', best_solution)
-
-        # index_best_fitness = fitness.index(best_fitness)
-        # best_solution = solution[index_best_fitness].copy()
-
+ 
         best_solution_str = [str(num) for num in best_solution]
         
-        # print("sca_fitline " + str(best_fitness) + " " + " ".join(best_solution_str))
+       
+        fit_line = log_line.replace( 'cost: ', '')
 
-        #выводить в форме 26.000000000000 p[0]:-0.465405203240 p[1]:-2.002952118361 p[2]:-3.207954750384 p[3]:-0.885287699249 p[4]:-2.157680026563 p[5]:-1.658628386335 p[6]:-0.918774186489 p[7]:-1.393377595340 p[8]:-1.446648095796 p[9]:-1.257747608850
-        format_best_fitness = "{:.12f}".format(best_fitness)
-        
-        # return str(best_fitness) + " " +  " ".join(best_solution_str)
-        return format_best_fitness + " " +  " ".join(best_solution_str)
+        return fit_line
 
     
     
@@ -144,8 +132,6 @@ class SCA:
             fitness.append(float(lines[i * 16 + 1])) # в deepmethod это cost 
             # fitness.append([float(num) for num in lines[i * 16 + 1]])
 
-        # print(solution)
-        # print(fitness)
         return solution, fitness
 
        
